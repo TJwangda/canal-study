@@ -23,10 +23,12 @@ public class SimpleCanalClientExample {
         int emptyCount = 0;
         try {
             connector.connect();
-            connector.subscribe(".*\\..*");
+            String syntableName1= "yangbendev2.account_msg,yangbendev2.account_user";
+//            connector.subscribe(".*\\..*");
+            connector.subscribe(syntableName1);
             connector.rollback();
-            int totalEmptyCount = 120;
-            while (emptyCount < totalEmptyCount) {
+//            int totalEmptyCount = 120;
+            while (true) {
                 Message message = connector.getWithoutAck(batchSize); // 获取指定数量的数据
                 long batchId = message.getId();
                 int size = message.getEntries().size();
@@ -47,7 +49,7 @@ public class SimpleCanalClientExample {
                 // connector.rollback(batchId); // 处理失败, 回滚数据
             }
 
-            System.out.println("empty too many times, exit");
+//            System.out.println("empty too many times, exit");
         } finally {
             connector.disconnect();
         }
